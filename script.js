@@ -36,3 +36,13 @@ const power = function (a, b) {
 const percent = function (a, b) {
     return (b / 100) * a;
 }
+
+let firstValue;
+let secondValue;
+let operator;
+
+let display = document.querySelector("#display");
+
+let operate = function(firstValue, secondValue, operator) {
+
+}
