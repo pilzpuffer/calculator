@@ -1,3 +1,14 @@
+window.addEventListener("load", function() {
+    let mainTheme = document.querySelector("#main-theme");
+    mainTheme.volume = 0.1;
+    let playMain = function() { 
+        mainTheme.play();
+        window.removeEventListener("click", playMain);
+    };
+
+    window.addEventListener("click", playMain)
+}) 
+
 const add = function (a, b) {
     return a + b;
 }
