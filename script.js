@@ -22,6 +22,6 @@ const power = function (a, b) {
     return a ** b;
 }
 
-const squareRoot = function (a) {
-    return a ** (1/2);
+const percent = function (a, b) {
+    return (b / 100) * a;
 }
