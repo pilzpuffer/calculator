@@ -95,9 +95,12 @@ button {
   left: 340px;
 }
     
-
 #ear-two {
     left: 630px;
+}
+
+#mouth {
+  transform: rotateX(180deg);
 }
 
 #body {
