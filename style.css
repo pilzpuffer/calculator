@@ -87,16 +87,25 @@ button {
 
 #ear-one, #ear-two {
     position: absolute;
-    z-index: -1;
+    z-index: 3;
     top: 100px;
+    transform: scale(105%);
 }
 
 #ear-one {
-  left: 340px;
+  left: 343px;
 }
     
 #ear-two {
     left: 630px;
+}
+
+#hat {
+  position: absolute;
+  z-index: -2;
+
+  top: 0px;
+  left: 395px;
 }
 
 #mouth {
@@ -111,3 +120,10 @@ button {
     left: 273px;
 
 }
+
+/* ideal svg sizing in px (not in px?? a bit of a mystery about the sizing, then) widthxheight: <- I need to look more into how sizing works for SVG elements
+ear: 210x157.5
+hat: 500x85
+mouth: 100x50
+body: 618.24 x 838.93 */
+
