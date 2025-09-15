@@ -43,6 +43,8 @@ let operator;
 
 let display = document.querySelector("#display");
 
+
+
 let operate = function(firstValue, secondValue, operator) {
 
 }

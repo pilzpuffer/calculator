@@ -85,21 +85,22 @@ button {
     height: 100%;
 }
 
-#ears div {
+#ear-one, #ear-two {
     position: absolute;
-    width: 0;
-    height: 0;
-    border: solid 80px;
-    border-color: transparent transparent var(--calculator-body-color) transparent;
-
-    top: 146px;
+    z-index: -1;
+    top: 100px;
 }
+
+#ear-one {
+  left: 340px;
+}
+    
 
 #ear-two {
-    margin-left: 340px;
+    left: 630px;
 }
 
-svg {
+#body {
     position: absolute;
     z-index: -1;
 
