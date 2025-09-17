@@ -67,15 +67,28 @@ numberButtons.forEach(button => {
                     display.textContent = "";
                 }
                     currentNumber = parseInt(button.textContent);
-                    
+
                     valueStorage.push(currentNumber);
                     display.textContent += currentNumber;
             }
     })
 });
 
-let functionButtons
+let functionButtons = document.querySelectorAll(".function") 
 
+functionButtons.forEach(button => {
+    button.addEventListener("click", function() {
+        if (button.textContent === "±") {
+            let toNegative = parseInt(valueStorage.join("")) * (-1);
+            console.log(`toNegative is ${toNegative}, and its type is ${typeof(toNegative)}`);
+            display.textContent = toNegative;
+            let toNegativeArray = toNegative.toString().split("");
+            console.log(`toNegativeArray is ${toNegativeArray}, and its type is ${typeof(toNegativeArray)}`)
+            valueStorage.splice(0, valueStorage.length, ...toNegativeArray)
+            console.log(valueStorage);
+        }
+    })
+})
 
 let operate = function(firstValue, secondValue, operator) {
 
