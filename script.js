@@ -37,9 +37,9 @@ const percent = function (a, b) {
     return (b / 100) * a;
 }
 
-let firstValue;
-let secondValue;
-let operator;
+let firstValue = null;
+let secondValue = null;
+let operator = null;
 
 let display = document.querySelector("#display");
 
@@ -52,6 +52,13 @@ let numberButtons = document.querySelectorAll(".number");
 numberButtons.forEach(button => {
     button.addEventListener("click", function() {
         let currentNumber;
+
+        if (operator && !firstValue) {
+            firstValue = parseInt(valueStorage.join(""));
+
+            valueStorage = [0];
+            display.textContent = valueStorage;
+        }
 
             if (button.textContent === ".") {
                 if (dotTracker < 1) {
@@ -76,6 +83,13 @@ numberButtons.forEach(button => {
 
 let functionButtons = document.querySelectorAll(".function") 
 
+let operate = function(firstValue, secondValue, operator) {
+    let result = operator(firstValue, secondValue);
+    display.textContent = result;
+    let resultToArray = result.toString().split("");
+    valueStorage = resultToArray;
+}
+
 functionButtons.forEach(button => {
     button.addEventListener("click", function() {
         if (button.textContent === "±") {
@@ -85,12 +99,12 @@ functionButtons.forEach(button => {
             valueStorage = toNegativeArray;
         }
         
-        if (button.textContent === "%") operator = percent();
-        if (button.textContent === "x^") operator = power();
-        if (button.textContent === "+") operator = add();
-        if (button.textContent === "-") operator = subtract();
-        if (button.textContent === "*") operator = multiply();
-        if (button.textContent === "÷") operator = divide();
+        if (button.textContent === "%") operator = percent;
+        if (button.textContent === "x^") operator = power;
+        if (button.textContent === "+") operator = add;
+        if (button.textContent === "-") operator = subtract;
+        if (button.textContent === "×") operator = multiply;
+        if (button.textContent === "÷") operator = divide;
 
         if (button.textContent === "C") {
             valueStorage = [0];
@@ -101,11 +115,17 @@ functionButtons.forEach(button => {
             operator = null;
         }
 
+        if (button.textContent === "=") {
+            secondValue = parseInt(valueStorage.join(""));
+
+            operate(firstValue, secondValue, operator);
+        }
+
     })
 })
 
-let operate = function(firstValue, secondValue, operator) {
 
-}
+}) // <- end of the load listener
 
-})
+
+

@@ -69,7 +69,8 @@ button {
     padding: 5%;
 
     height: 20%;
-    width: 100%
+    width: 100%;
+    font-size: xx-large;
 }
 
 #all-buttons {
