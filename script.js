@@ -80,13 +80,27 @@ functionButtons.forEach(button => {
     button.addEventListener("click", function() {
         if (button.textContent === "±") {
             let toNegative = parseInt(valueStorage.join("")) * (-1);
-            console.log(`toNegative is ${toNegative}, and its type is ${typeof(toNegative)}`);
             display.textContent = toNegative;
             let toNegativeArray = toNegative.toString().split("");
-            console.log(`toNegativeArray is ${toNegativeArray}, and its type is ${typeof(toNegativeArray)}`)
-            valueStorage.splice(0, valueStorage.length, ...toNegativeArray)
-            console.log(valueStorage);
+            valueStorage = toNegativeArray;
         }
+        
+        if (button.textContent === "%") operator = percent();
+        if (button.textContent === "x^") operator = power();
+        if (button.textContent === "+") operator = add();
+        if (button.textContent === "-") operator = subtract();
+        if (button.textContent === "*") operator = multiply();
+        if (button.textContent === "÷") operator = divide();
+
+        if (button.textContent === "C") {
+            valueStorage = [0];
+            display.textContent = valueStorage;
+
+            firstValue = null;
+            secondValue = null;
+            operator = null;
+        }
+
     })
 })
 
