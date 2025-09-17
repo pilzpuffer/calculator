@@ -24,6 +24,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     background-color: var(--background-color);
     overflow: hidden;
@@ -35,9 +36,15 @@ body {
 
 button {
     font-family: "Cyber";
-    /* aspect-ratio: 16/9; */
 
-    /* max-width: 30%; */
+}
+
+#title {
+    position: absolute;
+    top: 30px;
+
+    font-size: 350%;
+    color: var(--display-color)
 }
 
 #calculator {
@@ -87,7 +94,7 @@ button {
 
 #ear-one, #ear-two {
     position: absolute;
-    z-index: 3;
+    z-index: -1;
     top: 100px;
     transform: scale(105%);
 }
