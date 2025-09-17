@@ -57,18 +57,20 @@ numberButtons.forEach(button => {
                 if (dotTracker < 1) {
                     dotTracker++;
                     currentNumber = button.textContent; 
+
+                    valueStorage.push(currentNumber);
+                    display.textContent += currentNumber;
                 }
             } else {
                 if (valueStorage.length === 1 && valueStorage.includes(0)) {
                     valueStorage.shift()
                     display.textContent = "";
                 }
-               currentNumber = parseInt(button.textContent);
+                    currentNumber = parseInt(button.textContent);
+                    
+                    valueStorage.push(currentNumber);
+                    display.textContent += currentNumber;
             }
-
-        valueStorage.push(currentNumber);
-        display.textContent += currentNumber;
-        console.log(valueStorage);
     })
 });
 
