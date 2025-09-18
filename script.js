@@ -46,6 +46,7 @@ let calculatorState = {
     dotTracker: 0,
 
     functionSelection: false,
+    operationChaining: false,
     resultShown: false
 }
 
@@ -65,6 +66,11 @@ numberButtons.forEach(button => {
             display.textContent = calculatorState.valueStorage;
         }
 
+        // if (calculatorState.firstValue !== null && calculatorState.operationChaining) {
+            
+
+        // }
+
         if (calculatorState.firstValue !== null) {
             calculatorState.valueStorage = [0];
             display.textContent = calculatorState.valueStorage;
@@ -75,9 +81,7 @@ numberButtons.forEach(button => {
             calculatorState.secondValue = null;
         }
 
-        if (calculatorState.firstValue !== null && calculatorState.functionSelection && ) {
 
-        }
 
             if (button.textContent === ".") {
                 if (calculatorState.dotTracker < 1) {
@@ -97,6 +101,8 @@ numberButtons.forEach(button => {
                     calculatorState.valueStorage.push(currentNumber);
                     display.textContent += currentNumber;
             }
+
+            console.log(calculatorState);
     })
 });
 
@@ -118,6 +124,16 @@ let operate = function(firstValue, secondValue, operator) {
 functionButtons.forEach(button => {
     button.addEventListener("click", function() {
         calculatorState.functionSelection = true;
+
+        if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null) {
+
+            calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
+
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
+            calculatorState.resultShown = true;
+            calculatorState.functionSelection = false;
+            calculatorState.operationChaining = false;
+        }
 
         if (button.textContent === "±") {
             let toNegative = parseFloat(valueStorage.join("")) * (-1);
@@ -142,6 +158,7 @@ functionButtons.forEach(button => {
             calculatorState.operator = null;
             calculatorState.functionSelection = false;
             calculatorState.resultShown = false;
+            calculatorState.operationChaining = false;
         }
 
         if (button.textContent === "=") {
@@ -150,6 +167,7 @@ functionButtons.forEach(button => {
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
             calculatorState.resultShown = true;
             calculatorState.functionSelection = false;
+            calculatorState.operationChaining = false;
             console.log(`first value is ${calculatorState.firstValue}, second value is ${calculatorState.secondValue}, and the used operator is ${calculatorState.operator}`)
         }
 
