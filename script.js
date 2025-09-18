@@ -37,45 +37,60 @@ const percent = function (a, b) {
     return (b / 100) * a;
 }
 
-let firstValue = null;
-let secondValue = null;
-let operator = null;
+let calculatorState = {
+    firstValue: null,
+    secondValue: null,
+    operator: null,
+
+    valueStorage: [0],
+    dotTracker: 0,
+
+    functionSelection: false,
+    resultShown: false
+}
 
 let display = document.querySelector("#display");
+display.textContent = calculatorState.valueStorage;
 
-let valueStorage = [0];
-display.textContent = valueStorage;
-
-let dotTracker = 0;
 let numberButtons = document.querySelectorAll(".number");
 
 numberButtons.forEach(button => {
     button.addEventListener("click", function() {
         let currentNumber;
 
-        if (operator && !firstValue) {
-            firstValue = parseInt(valueStorage.join(""));
+        if (calculatorState.functionSelection && !calculatorState.firstValue) {
+            calculatorState.firstValue = parseInt(calculatorState.valueStorage.join(""));
 
-            valueStorage = [0];
-            display.textContent = valueStorage;
+            calculatorState.valueStorage = [0];
+            display.textContent = calculatorState.valueStorage;
+        }
+
+        if (calculatorState.firstValue !== null) {
+            calculatorState.valueStorage = [0];
+            display.textContent = calculatorState.valueStorage;
+        }
+
+        if (calculatorState.resultShown && !calculatorState.functionSelection) {
+            calculatorState.firstValue = null;
+            calculatorState.secondValue = null;
         }
 
             if (button.textContent === ".") {
-                if (dotTracker < 1) {
-                    dotTracker++;
+                if (calculatorState.dotTracker < 1) {
+                    calculatorState.dotTracker++;
                     currentNumber = button.textContent; 
 
-                    valueStorage.push(currentNumber);
+                    calculatorState.valueStorage.push(currentNumber);
                     display.textContent += currentNumber;
                 }
             } else {
-                if (valueStorage.length === 1 && valueStorage.includes(0)) {
-                    valueStorage.shift()
+                if (calculatorState.valueStorage.length === 1 && calculatorState.valueStorage.includes(0)) {
+                    calculatorState.valueStorage.shift()
                     display.textContent = "";
                 }
                     currentNumber = parseInt(button.textContent);
 
-                    valueStorage.push(currentNumber);
+                    calculatorState.valueStorage.push(currentNumber);
                     display.textContent += currentNumber;
             }
     })
@@ -86,39 +101,51 @@ let functionButtons = document.querySelectorAll(".function")
 let operate = function(firstValue, secondValue, operator) {
     let result = operator(firstValue, secondValue);
     display.textContent = result;
+
+    calculatorState.firstValue = result;
+    calculatorState.secondValue = null;
+    calculatorState.operator = null;
+
     let resultToArray = result.toString().split("");
-    valueStorage = resultToArray;
+    calculatorState.valueStorage = resultToArray;
+    calculatorState.functionSelection = false;
 }
 
 functionButtons.forEach(button => {
     button.addEventListener("click", function() {
+        calculatorState.functionSelection = true;
+
         if (button.textContent === "±") {
             let toNegative = parseInt(valueStorage.join("")) * (-1);
             display.textContent = toNegative;
             let toNegativeArray = toNegative.toString().split("");
-            valueStorage = toNegativeArray;
+            calculatorState.valueStorage = toNegativeArray;
         }
         
-        if (button.textContent === "%") operator = percent;
-        if (button.textContent === "x^") operator = power;
-        if (button.textContent === "+") operator = add;
-        if (button.textContent === "-") operator = subtract;
-        if (button.textContent === "×") operator = multiply;
-        if (button.textContent === "÷") operator = divide;
+        if (button.textContent === "%") calculatorState.operator = percent;
+        if (button.textContent === "x^") calculatorState.operator = power;
+        if (button.textContent === "+") calculatorState.operator = add;
+        if (button.textContent === "-") calculatorState.operator = subtract;
+        if (button.textContent === "×") calculatorState.operator = multiply;
+        if (button.textContent === "÷") calculatorState.operator = divide;
 
         if (button.textContent === "C") {
-            valueStorage = [0];
+            calculatorState.valueStorage = [0];
             display.textContent = valueStorage;
 
-            firstValue = null;
-            secondValue = null;
-            operator = null;
+            calculatorState.firstValue = null;
+            calculatorState.secondValue = null;
+            calculatorState.operator = null;
+            calculatorState.functionSelection = false;
+            calculatorState.resultShown = false;
         }
 
         if (button.textContent === "=") {
-            secondValue = parseInt(valueStorage.join(""));
+            calculatorState.secondValue = parseInt(calculatorState.valueStorage.join(""));
 
-            operate(firstValue, secondValue, operator);
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
+            calculatorState.resultShown = true;
+            console.log(`first value is ${calculatorState.firstValue}, second value is ${calculatorState.secondValue}, and the used operator is ${calculatorState.operator}`)
         }
 
     })
