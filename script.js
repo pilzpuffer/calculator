@@ -23,7 +23,7 @@ const multiply = function (a, b) {
 
 const divide = function (a, b) {
     if (b === 0) {
-        return x;
+        return "error";
     } else {
         return a / b;
     }
@@ -75,7 +75,7 @@ numberButtons.forEach(button => {
             calculatorState.numbersEntered = 0;
         }
 
-        if (calculatorState.resultShown && !calculatorState.functionSelection) {
+        if (display.textContent === "HACKER!!!" || calculatorState.resultShown && !calculatorState.functionSelection) {
             calculatorState.firstValue = null;
             calculatorState.secondValue = null;
             calculatorState.operator = null;
@@ -112,14 +112,22 @@ let functionButtons = document.querySelectorAll(".function")
 
 let operate = function(firstValue, secondValue, operator) {
     let result = operator(firstValue, secondValue);
-    display.textContent = result;
 
-    calculatorState.firstValue = result;
-    calculatorState.secondValue = null;
+    if (result === "error") {
+        display.textContent = "HACKER!!!"
 
-    let resultToArray = result.toString().split("");
+        calculatorState.firstValue = null;
+        calculatorState.secondValue = null;
+    } else {
+        display.textContent = result;
 
-    calculatorState.valueStorage = resultToArray;
+        calculatorState.firstValue = result;
+        calculatorState.secondValue = null;
+
+        let resultToArray = result.toString().split("");
+
+        calculatorState.valueStorage = resultToArray;
+    }
 
     calculatorState.resultShown = true;
     calculatorState.numbersEntered = 0;
