@@ -59,7 +59,7 @@ numberButtons.forEach(button => {
         let currentNumber;
 
         if (calculatorState.functionSelection && !calculatorState.firstValue) {
-            calculatorState.firstValue = parseInt(calculatorState.valueStorage.join(""));
+            calculatorState.firstValue = parseFloat(calculatorState.valueStorage.join(""));
 
             calculatorState.valueStorage = [0];
             display.textContent = calculatorState.valueStorage;
@@ -75,6 +75,10 @@ numberButtons.forEach(button => {
             calculatorState.secondValue = null;
         }
 
+        if (calculatorState.firstValue !== null && calculatorState.functionSelection && ) {
+
+        }
+
             if (button.textContent === ".") {
                 if (calculatorState.dotTracker < 1) {
                     calculatorState.dotTracker++;
@@ -88,7 +92,7 @@ numberButtons.forEach(button => {
                     calculatorState.valueStorage.shift()
                     display.textContent = "";
                 }
-                    currentNumber = parseInt(button.textContent);
+                    currentNumber = parseFloat(button.textContent);
 
                     calculatorState.valueStorage.push(currentNumber);
                     display.textContent += currentNumber;
@@ -108,7 +112,7 @@ let operate = function(firstValue, secondValue, operator) {
 
     let resultToArray = result.toString().split("");
     calculatorState.valueStorage = resultToArray;
-    calculatorState.functionSelection = false;
+
 }
 
 functionButtons.forEach(button => {
@@ -116,7 +120,7 @@ functionButtons.forEach(button => {
         calculatorState.functionSelection = true;
 
         if (button.textContent === "±") {
-            let toNegative = parseInt(valueStorage.join("")) * (-1);
+            let toNegative = parseFloat(valueStorage.join("")) * (-1);
             display.textContent = toNegative;
             let toNegativeArray = toNegative.toString().split("");
             calculatorState.valueStorage = toNegativeArray;
@@ -131,7 +135,7 @@ functionButtons.forEach(button => {
 
         if (button.textContent === "C") {
             calculatorState.valueStorage = [0];
-            display.textContent = valueStorage;
+            display.textContent = calculatorState.valueStorage;
 
             calculatorState.firstValue = null;
             calculatorState.secondValue = null;
@@ -141,10 +145,11 @@ functionButtons.forEach(button => {
         }
 
         if (button.textContent === "=") {
-            calculatorState.secondValue = parseInt(calculatorState.valueStorage.join(""));
+            calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
 
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
             calculatorState.resultShown = true;
+            calculatorState.functionSelection = false;
             console.log(`first value is ${calculatorState.firstValue}, second value is ${calculatorState.secondValue}, and the used operator is ${calculatorState.operator}`)
         }
 
