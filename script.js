@@ -23,7 +23,7 @@ const multiply = function (a, b) {
 
 const divide = function (a, b) {
     if (b === 0) {
-        console.log("naughty...."); //change to an actual display output later
+        return x;
     } else {
         return a / b;
     }
@@ -41,6 +41,7 @@ let calculatorState = {
     firstValue: null,
     secondValue: null,
     operator: null,
+    prevOperators: [],
 
     valueStorage: [0],
     dotTracker: 0,
@@ -115,11 +116,13 @@ let operate = function(firstValue, secondValue, operator) {
 
     calculatorState.firstValue = result;
     calculatorState.secondValue = null;
-    calculatorState.operator = null;
 
     let resultToArray = result.toString().split("");
+
     calculatorState.valueStorage = resultToArray;
 
+    calculatorState.resultShown = true;
+    calculatorState.numbersEntered = 0;
 }
 
 functionButtons.forEach(button => {
@@ -140,6 +143,9 @@ functionButtons.forEach(button => {
         if (button.textContent === "×") calculatorState.operator = multiply;
         if (button.textContent === "÷") calculatorState.operator = divide;
 
+        calculatorState.prevOperators.push(calculatorState.operator);
+        console.log(calculatorState.prevOperators);
+
         if (button.textContent === "C") {
             calculatorState.valueStorage = [0];
             display.textContent = calculatorState.valueStorage;
@@ -150,26 +156,22 @@ functionButtons.forEach(button => {
             calculatorState.functionSelection = false;
             calculatorState.resultShown = false;
             calculatorState.numbersEntered = 0;
+            calculatorState.prevOperators = [];
         }
 
-        if (button.textContent === "=") {
+        if (button.textContent === "=") {  
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-
             console.log(`first value is ${calculatorState.firstValue}, second value is ${calculatorState.secondValue}, and the used operator is ${calculatorState.operator}`)
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
-            calculatorState.resultShown = true;
             calculatorState.functionSelection = false;
-            calculatorState.numbersEntered = 0;
             
         }
 
         if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
-
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-
-            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
-            calculatorState.resultShown = true;
-            calculatorState.numbersEntered = 0;
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 2]);
+            //this logic breaks when we try to run an operation like 1 + 2 - 3 (returns -4, as all operators get changed to the last one used) +
+            //+ can't run '=' operation when working with chained calculations like 1 + 2 + 3, as we get an error that operator is not a function, as it gets reset to null - look into that issue
         }
 
     })
