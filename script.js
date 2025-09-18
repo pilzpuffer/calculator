@@ -44,9 +44,9 @@ let calculatorState = {
 
     valueStorage: [0],
     dotTracker: 0,
+    numbersEntered: 0,
 
     functionSelection: false,
-    operationChaining: false,
     resultShown: false
 }
 
@@ -65,16 +65,20 @@ numberButtons.forEach(button => {
 
             calculatorState.valueStorage = [0];
             display.textContent = calculatorState.valueStorage;
+            calculatorState.numbersEntered = 0;
         }
 
         if (calculatorState.firstValue !== null) {
             calculatorState.valueStorage = [0];
             display.textContent = calculatorState.valueStorage;
+            calculatorState.numbersEntered = 0;
         }
 
         if (calculatorState.resultShown && !calculatorState.functionSelection) {
             calculatorState.firstValue = null;
             calculatorState.secondValue = null;
+            calculatorState.operator = null;
+            calculatorState.numbersEntered = 0;
         }
 
 
@@ -96,6 +100,7 @@ numberButtons.forEach(button => {
 
                     calculatorState.valueStorage.push(currentNumber);
                     display.textContent += currentNumber;
+                    calculatorState.numbersEntered++;
             }
 
             console.log(`this is calculator at the end of entering a number:`, calculatorState)
@@ -144,6 +149,7 @@ functionButtons.forEach(button => {
             calculatorState.operator = null;
             calculatorState.functionSelection = false;
             calculatorState.resultShown = false;
+            calculatorState.numbersEntered = 0;
         }
 
         if (button.textContent === "=") {
@@ -153,24 +159,24 @@ functionButtons.forEach(button => {
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
             calculatorState.resultShown = true;
             calculatorState.functionSelection = false;
+            calculatorState.numbersEntered = 0;
             
         }
 
-        if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null) {
+        if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
 
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
 
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
             calculatorState.resultShown = true;
-            //at the moment, this method allows just for "operate" run  without pressing on the '=' sign
-            //needs to be adjusted further, first value resets to 0 at some point for some reason, verify why
+            calculatorState.numbersEntered = 0;
         }
 
     })
 })
 
 
-}) // <- end of the load listener
+})
 
 
 
