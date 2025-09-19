@@ -39,6 +39,15 @@ button {
 
 }
 
+#hacker {
+    position: absolute;
+    top: 0;
+    z-index: -5;
+
+    /* height: 100vh;
+    width: 100vw; */
+}
+
 #title {
     position: absolute;
     top: 30px;
@@ -76,6 +85,15 @@ button {
 #all-buttons {
     display: flex;
     flex-direction: row;
+}
+
+#all-buttons button {
+    border-radius: 40%;
+
+    height: 70px;
+    width: 70px;
+
+    font-size: x-large;
 }
 
 #center-section {
@@ -127,6 +145,7 @@ button {
     top: 290px;
     left: 273px;
 
+    filter: drop-shadow(15px 15px 15px rgba(252, 15, 193, 0.616))
 }
 
 /* ideal svg sizing in px (not in px?? a bit of a mystery about the sizing, then) widthxheight: <- I need to look more into how sizing works for SVG elements

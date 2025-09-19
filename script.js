@@ -184,6 +184,35 @@ functionButtons.forEach(button => {
 
     })
 })
+    const canvas = document.querySelector("#hacker");
+    let screenSize = window.screen;
+    let canvasWidth = (canvas.width = screenSize.width);
+    let canvasHeight = (canvas.height = screenSize.height);
+    const ctx = canvas.getContext("2d");
+
+    const columnCount = Math.floor(canvasWidth / 10) + 1;
+    let columnPositions = Array(columnCount).fill(0);
+
+    const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
+    const possibleCharacters = [..."01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+
+    setInterval(() => {
+        ctx.fillStyle = "rgba(0, 0, 0, .05)";
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillStyle = "green"
+
+        columnPositions.forEach((y, columnIndex) => {
+            const char = randomItem(possibleCharacters);
+            ctx.fillText(char, columnIndex * 10, y)
+
+            if (y >= canvasHeight || y > 50 + 10000 * Math.random()) {
+                columnPositions[columnIndex] = 0; //reset a column to start back from the top
+            } else {
+                columnPositions[columnIndex] = y + 10;
+            }
+        })
+
+    }, 1000 / 30)
 
 
 })
