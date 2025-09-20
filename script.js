@@ -40,7 +40,11 @@ const percent = function (a, b) {
 let calculatorState = {
     firstValue: null,
     secondValue: null,
-    operator: null,
+    operator: {
+        id: null,
+        function: null
+    },
+
     prevOperators: [],
 
     valueStorage: [0],
@@ -51,8 +55,9 @@ let calculatorState = {
     resultShown: false
 }
 
-let display = document.querySelector("#display");
-display.textContent = calculatorState.valueStorage;
+let storedCalculations = document.querySelector("#prevCalc");
+let currentCalculation = document.querySelector("#currentCalc")
+currentCalculation.textContent = calculatorState.valueStorage;
 
 let numberButtons = document.querySelectorAll(".number");
 
@@ -65,21 +70,34 @@ numberButtons.forEach(button => {
             calculatorState.firstValue = parseFloat(calculatorState.valueStorage.join(""));
 
             calculatorState.valueStorage = [0];
-            display.textContent = calculatorState.valueStorage;
+            currentCalculation.textContent = calculatorState.valueStorage;
             calculatorState.numbersEntered = 0;
+            
+            if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
+                storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
+            } else if (calculatorState.firstValue !== null) {
+                storedCalculations.textContent = `${calculatorState.firstValue}`;
+            }     
         }
 
-        if (calculatorState.firstValue !== null) {
+        if (calculatorState.firstValue !== null && calculatorState.numbersEntered === 0) {
             calculatorState.valueStorage = [0];
-            display.textContent = calculatorState.valueStorage;
+            currentCalculation.textContent = calculatorState.valueStorage;
             calculatorState.numbersEntered = 0;
+
+            if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
+                storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
+            } else if (calculatorState.firstValue !== null) {
+                storedCalculations.textContent = `${calculatorState.firstValue}`;
+            }    
         }
 
-        if (display.textContent === "HACKER!!!" || calculatorState.resultShown && !calculatorState.functionSelection) {
+        if (currentCalculation.textContent === "HACKER!!!" || calculatorState.resultShown && !calculatorState.functionSelection) {
             calculatorState.firstValue = null;
             calculatorState.secondValue = null;
             calculatorState.operator = null;
             calculatorState.numbersEntered = 0;
+            storedCalculations.textContent = "";
         }
 
 
@@ -90,17 +108,17 @@ numberButtons.forEach(button => {
                     currentNumber = button.textContent; 
 
                     calculatorState.valueStorage.push(currentNumber);
-                    display.textContent += currentNumber;
+                    currentCalculation.textContent += currentNumber;
                 }
             } else {
                 if (calculatorState.valueStorage.length === 1 && calculatorState.valueStorage.includes(0)) {
                     calculatorState.valueStorage.shift()
-                    display.textContent = "";
+                    currentCalculation.textContent = "";
                 }
                     currentNumber = parseFloat(button.textContent);
 
                     calculatorState.valueStorage.push(currentNumber);
-                    display.textContent += currentNumber;
+                    currentCalculation.textContent += currentNumber;
                     calculatorState.numbersEntered++;
             }
 
@@ -114,12 +132,12 @@ let operate = function(firstValue, secondValue, operator) {
     let result = operator(firstValue, secondValue);
 
     if (result === "error") {
-        display.textContent = "HACKER!!!"
+        currentCalculation.textContent = "HACKER!!!"
 
         calculatorState.firstValue = null;
         calculatorState.secondValue = null;
     } else {
-        display.textContent = result;
+        currentCalculation.textContent = result;
 
         calculatorState.firstValue = result;
         calculatorState.secondValue = null;
@@ -127,6 +145,12 @@ let operate = function(firstValue, secondValue, operator) {
         let resultToArray = result.toString().split("");
 
         calculatorState.valueStorage = resultToArray;
+
+        // if (calculatorState.operator !== null) {
+        //     storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
+        // } else {
+        //     storedCalculations.textContent = `${calculatorState.firstValue}`;
+        // }  
     }
 
     calculatorState.resultShown = true;
@@ -139,24 +163,49 @@ functionButtons.forEach(button => {
 
         if (button.textContent === "±") {
             let toNegative = parseFloat(valueStorage.join("")) * (-1);
-            display.textContent = toNegative;
+            currentCalculation.textContent = toNegative;
             let toNegativeArray = toNegative.toString().split("");
             calculatorState.valueStorage = toNegativeArray;
         }
         
-        if (button.textContent === "%") calculatorState.operator = percent;
-        if (button.textContent === "x^") calculatorState.operator = power;
-        if (button.textContent === "+") calculatorState.operator = add;
-        if (button.textContent === "-") calculatorState.operator = subtract;
-        if (button.textContent === "×") calculatorState.operator = multiply;
-        if (button.textContent === "÷") calculatorState.operator = divide;
+        if (button.textContent === "%") {
+            calculatorState.operator.id = "%"
+            calculatorState.operator.function = percent;
+        }
+        if (button.textContent === "x^") {
+            calculatorState.operator.id = "^";
+            calculatorState.operator.function = power;
+        }
+        if (button.textContent === "+") {
+            calculatorState.operator.id = "+"
+            calculatorState.operator.function = add;
+        } 
+        if (button.textContent === "-") {
+            calculatorState.operator.id = "-"
+            calculatorState.operator.function = subtract;
+        }
+        if (button.textContent === "×") {
+            calculatorState.operator.id = "×"
+            calculatorState.operator.function = multiply;
+        }
+        if (button.textContent === "÷") {
+            calculatorState.operator.id = "÷"
+            calculatorState.operator.function = divide;
+        }
+
+        if (calculatorState.firstValue !== null) {
+            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
+        }
+        
+        
 
         calculatorState.prevOperators.push(calculatorState.operator);
         console.log(calculatorState.prevOperators);
 
         if (button.textContent === "C") {
             calculatorState.valueStorage = [0];
-            display.textContent = calculatorState.valueStorage;
+            currentCalculation.textContent = calculatorState.valueStorage;
+            storedCalculations.textContent = "";
 
             calculatorState.firstValue = null;
             calculatorState.secondValue = null;
@@ -169,8 +218,8 @@ functionButtons.forEach(button => {
 
         if (button.textContent === "=") {  
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-            console.log(`first value is ${calculatorState.firstValue}, second value is ${calculatorState.secondValue}, and the used operator is ${calculatorState.operator}`)
-            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator);
+            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id} ${calculatorState.secondValue} =`;
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator.function);
             calculatorState.functionSelection = false;
             
         }
@@ -178,8 +227,6 @@ functionButtons.forEach(button => {
         if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 2]);
-            //this logic breaks when we try to run an operation like 1 + 2 - 3 (returns -4, as all operators get changed to the last one used) +
-            //+ can't run '=' operation when working with chained calculations like 1 + 2 + 3, as we get an error that operator is not a function, as it gets reset to null - look into that issue
         }
 
     })
@@ -211,6 +258,7 @@ functionButtons.forEach(button => {
                 columnPositions[columnIndex] = y + 10;
             }
         })
+        
 
     }, 1000 / 30)
 
