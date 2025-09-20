@@ -209,7 +209,8 @@ functionButtons.forEach(button => {
 
             calculatorState.firstValue = null;
             calculatorState.secondValue = null;
-            calculatorState.operator = null;
+            calculatorState.operator.id = null;
+            calculatorState.operator.function = null;
             calculatorState.functionSelection = false;
             calculatorState.resultShown = false;
             calculatorState.numbersEntered = 0;
