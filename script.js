@@ -120,6 +120,8 @@ numberButtons.forEach(button => {
                     currentCalculation.textContent += currentNumber;
                     calculatorState.numbersEntered++;
             }
+
+            console.log(`valueStorage is ${calculatorState.valueStorage}`);
     })
 });
 
@@ -228,16 +230,18 @@ const backspace = document.querySelector("#backspace");
 backspace.addEventListener("click", function() {
     if (calculatorState.firstValue === null && !calculatorState.functionSelection) {
         if (calculatorState.valueStorage.length > 1) {
-            calculatorState.valueStorage.pop()
+            calculatorState.valueStorage.pop();
         } else if (calculatorState.valueStorage.length === 1) {
             if (!calculatorState.valueStorage.includes(0)) {
                 calculatorState.valueStorage = [0];
+                currentCalculation.textContent = calculatorState.valueStorage;
             }
         }
-
     }
 
-    currentCalculation.textContent = calculatorState.valueStorage;
+    let fixedText = parseFloat(calculatorState.valueStorage.join(""));
+    calculatorState.numbersEntered = calculatorState.numbersEntered === 0 ? 0 : calculatorState.numbersEntered - 1;
+    currentCalculation.textContent = fixedText;
 })
 
 

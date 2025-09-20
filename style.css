@@ -104,13 +104,17 @@ button {
 }
 
 #backspace {
-    width: 70px;
+    width: 74.23px;
     height: 70px;
 
     border-radius: 50%;
     border: 3px solid var(--calculator-body-color);
 
     align-self: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #all-buttons {
