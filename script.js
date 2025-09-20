@@ -222,6 +222,27 @@ functionButtons.forEach(button => {
 
     })
 })
+
+const backspace = document.querySelector("#backspace");
+
+backspace.addEventListener("click", function() {
+    if (calculatorState.firstValue === null && !calculatorState.functionSelection) {
+        if (calculatorState.valueStorage.length > 1) {
+            calculatorState.valueStorage.pop()
+        } else if (calculatorState.valueStorage.length === 1) {
+            if (!calculatorState.valueStorage.includes(0)) {
+                calculatorState.valueStorage = [0];
+            }
+        }
+
+    }
+
+    currentCalculation.textContent = calculatorState.valueStorage;
+})
+
+
+
+
     const canvas = document.querySelector("#hacker");
     let screenSize = window.screen;
     let canvasWidth = (canvas.width = screenSize.width);
