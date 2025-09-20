@@ -90,7 +90,9 @@ button {
 
 #all-buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #all-buttons button {
@@ -100,21 +102,6 @@ button {
     width: 70px;
 
     font-size: x-large;
-}
-
-#center-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#side-functions {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    height: 100%;
 }
 
 #ear-one, #ear-two {

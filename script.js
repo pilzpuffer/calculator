@@ -64,7 +64,6 @@ let numberButtons = document.querySelectorAll(".number");
 numberButtons.forEach(button => {
     button.addEventListener("click", function() {
         let currentNumber;
-        console.log(`this is calculator at the beginning of entering a number:`, calculatorState)
 
         if (calculatorState.functionSelection && !calculatorState.firstValue) {
             calculatorState.firstValue = parseFloat(calculatorState.valueStorage.join(""));
@@ -121,8 +120,6 @@ numberButtons.forEach(button => {
                     currentCalculation.textContent += currentNumber;
                     calculatorState.numbersEntered++;
             }
-
-            console.log(`this is calculator at the end of entering a number:`, calculatorState)
     })
 });
 
@@ -192,7 +189,6 @@ functionButtons.forEach(button => {
         }   
 
         calculatorState.prevOperators.push(calculatorState.operator);
-        console.log("previous operator array is", calculatorState.prevOperators);
 
 
         if (button.textContent === "C") {
