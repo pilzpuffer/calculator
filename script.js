@@ -145,12 +145,6 @@ let operate = function(firstValue, secondValue, operator) {
         let resultToArray = result.toString().split("");
 
         calculatorState.valueStorage = resultToArray;
-
-        // if (calculatorState.operator !== null) {
-        //     storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
-        // } else {
-        //     storedCalculations.textContent = `${calculatorState.firstValue}`;
-        // }  
     }
 
     calculatorState.resultShown = true;
@@ -195,12 +189,11 @@ functionButtons.forEach(button => {
 
         if (calculatorState.firstValue !== null) {
             storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
-        }
-        
-        
+        }   
 
         calculatorState.prevOperators.push(calculatorState.operator);
-        console.log(calculatorState.prevOperators);
+        console.log("previous operator array is", calculatorState.prevOperators);
+
 
         if (button.textContent === "C") {
             calculatorState.valueStorage = [0];
@@ -227,7 +220,8 @@ functionButtons.forEach(button => {
 
         if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 2]);
+            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 2].id} ${calculatorState.secondValue} =`;
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 2].function);
         }
 
     })
