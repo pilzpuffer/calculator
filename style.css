@@ -73,6 +73,9 @@ button {
 }
 
 #display {
+    display: flex;
+    flex-direction: row;
+
     background-color: var(--display-color);
     border-radius: 10%;
 
@@ -83,9 +86,31 @@ button {
     font-size: xx-large;
 }
 
+#results {
+    display: flex;
+    flex-direction: column;
+
+    width: 90%
+}
+
 #prevCalc {
-    font-size: x-large;
+    font-size: large;
+    height: 40%;
     color: var( --grey-text);
+}
+
+#currentCalc {
+    height: 60%
+}
+
+#backspace {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+    border: 3px solid var(--calculator-body-color);
+
+    align-self: center;
 }
 
 #all-buttons {
