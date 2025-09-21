@@ -117,7 +117,15 @@ numberButtons.forEach(button => {
                     currentNumber = parseFloat(button.textContent);
 
                     calculatorState.valueStorage.push(currentNumber);
-                    currentCalculation.textContent += currentNumber;
+                    
+                    if (calculatorState.valueStorage.length >= 15) {
+                        let shortenedDisplay = calculatorState.valueStorage.slice(0, 12)
+                        currentCalculation.textContent = parseFloat(shortenedDisplay.join(""));
+                        currentCalculation.textContent += " ...";
+                    } else {
+                        currentCalculation.textContent += currentNumber;
+                    }
+
                     calculatorState.numbersEntered++;
             }
 
@@ -218,8 +226,15 @@ functionButtons.forEach(button => {
 
         if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
+            console.log(calculatorState.prevOperators);
             storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 2].id} ${calculatorState.secondValue} =`;
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 2].function);
+            //issue with how operators display in chained operations - the "latest" operator shows 
+            //instead of the one that was actually used in an operation. seems to be the case for
+            //the actual operation as well. As I've tried to calculate 1 + 2 - 3 (was supposed to
+            //get 0), but got -4 instead.
+            //based on logs, prevOperator values seem to get updated by the operator, and they all become
+            //the same. check on that issue
         }
 
     })
@@ -239,9 +254,8 @@ backspace.addEventListener("click", function() {
         }
     }
 
-    let fixedText = parseFloat(calculatorState.valueStorage.join(""));
     calculatorState.numbersEntered = calculatorState.numbersEntered === 0 ? 0 : calculatorState.numbersEntered - 1;
-    currentCalculation.textContent = fixedText;
+    currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
 })
 
 

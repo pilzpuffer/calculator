@@ -75,6 +75,9 @@ button {
 #display {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
 
     background-color: var(--display-color);
     border-radius: 10%;
@@ -90,7 +93,7 @@ button {
     display: flex;
     flex-direction: column;
 
-    width: 90%
+    width: 85%;
 }
 
 #prevCalc {
@@ -104,8 +107,8 @@ button {
 }
 
 #backspace {
-    width: 74.23px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
 
     border-radius: 50%;
     border: 3px solid var(--calculator-body-color);
@@ -115,6 +118,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 #all-buttons {
