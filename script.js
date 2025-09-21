@@ -117,7 +117,7 @@ numberButtons.forEach(button => {
                     currentNumber = parseFloat(button.textContent);
 
                     calculatorState.valueStorage.push(currentNumber);
-                    
+
                     if (calculatorState.valueStorage.length >= 15) {
                         let shortenedDisplay = calculatorState.valueStorage.slice(0, 12)
                         currentCalculation.textContent = parseFloat(shortenedDisplay.join(""));
@@ -143,8 +143,15 @@ let operate = function(firstValue, secondValue, operator) {
 
         calculatorState.firstValue = null;
         calculatorState.secondValue = null;
-    } else {
-        currentCalculation.textContent = result;
+    } else {     
+
+        if (calculatorState.valueStorage.length >= 15) {
+            let shortenedResult = [...result.toString()].slice(0, 12)
+            currentCalculation.textContent = parseFloat(shortenedResult.join(""));
+            currentCalculation.textContent += " ...";
+        } else {
+            currentCalculation.textContent = result;
+        }
 
         calculatorState.firstValue = result;
         calculatorState.secondValue = null;
