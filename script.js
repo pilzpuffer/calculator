@@ -61,6 +61,40 @@ currentCalculation.textContent = calculatorState.valueStorage;
 
 let numberButtons = document.querySelectorAll(".number");
 
+let updatePrev = function () {
+    allFunctions = [
+        {
+            id: "%",
+            function: percent
+        },
+         {
+            id: "^",
+            function: power
+        },
+         {
+            id: "+",
+            function: add
+        },
+         {
+            id: "-",
+            function: subtract
+        },
+         {
+            id: "×",
+            function: multiply
+        },
+         {
+            id: "÷",
+            function: divide,
+        }
+    ]
+
+    let neededOperator = allFunctions.find(operator => operator.id === calculatorState.operator.id)
+    console.log("the needed operator that we pushed into prevOperators is", neededOperator);
+
+    calculatorState.prevOperators.push(neededOperator);
+    }
+
 numberButtons.forEach(button => {
     button.addEventListener("click", function() {
         let currentNumber;
@@ -71,6 +105,7 @@ numberButtons.forEach(button => {
             calculatorState.valueStorage = [0];
             currentCalculation.textContent = calculatorState.valueStorage;
             calculatorState.numbersEntered = 0;
+            updatePrev();
             
             if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
                 storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
@@ -83,6 +118,7 @@ numberButtons.forEach(button => {
             calculatorState.valueStorage = [0];
             currentCalculation.textContent = calculatorState.valueStorage;
             calculatorState.numbersEntered = 0;
+            updatePrev();
 
             if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
                 storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
@@ -204,8 +240,6 @@ functionButtons.forEach(button => {
         if (calculatorState.firstValue !== null) {
             storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
         }   
-
-        calculatorState.prevOperators.push(calculatorState.operator);
 
 
         if (button.textContent === "C") {
