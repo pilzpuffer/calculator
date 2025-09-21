@@ -95,36 +95,41 @@ let updatePrev = function () {
     calculatorState.prevOperators.push(neededOperator);
     }
 
+let manageStoredDisplay = function (string) {
+    if ([...string].length >= 25) {
+        let shortened = [...string].slice(0, 25)
+        storedCalculations.textContent = shortened.join("");
+        storedCalculations.textContent += " ...";
+    } else {
+        storedCalculations.textContent = string;
+    }
+}
+
+let displayRefresh = function() {
+    calculatorState.valueStorage = [0];
+    currentCalculation.textContent = calculatorState.valueStorage;
+    calculatorState.numbersEntered = 0;
+    
+    if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
+        manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id}`)
+    } else if (calculatorState.firstValue !== null) {
+        manageStoredDisplay(`${calculatorState.firstValue}`);
+    }     
+}
+
 numberButtons.forEach(button => {
     button.addEventListener("click", function() {
         let currentNumber;
 
         if (calculatorState.functionSelection && !calculatorState.firstValue) {
             calculatorState.firstValue = parseFloat(calculatorState.valueStorage.join(""));
-
-            calculatorState.valueStorage = [0];
-            currentCalculation.textContent = calculatorState.valueStorage;
-            calculatorState.numbersEntered = 0;
-            updatePrev();
-            
-            if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
-                storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
-            } else if (calculatorState.firstValue !== null) {
-                storedCalculations.textContent = `${calculatorState.firstValue}`;
-            }     
+            displayRefresh()
         }
 
-        if (calculatorState.firstValue !== null && calculatorState.numbersEntered === 0) {
-            calculatorState.valueStorage = [0];
-            currentCalculation.textContent = calculatorState.valueStorage;
-            calculatorState.numbersEntered = 0;
-            updatePrev();
-
-            if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
-                storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
-            } else if (calculatorState.firstValue !== null) {
-                storedCalculations.textContent = `${calculatorState.firstValue}`;
-            }    
+        if (calculatorState.firstValue !== null && calculatorState.numbersEntered === 0) { 
+            //not a duplicate of the above if statement, needed to update values correctly in case of chained operations!
+            updatePrev(); 
+            displayRefresh();
         }
 
         if (currentCalculation.textContent === "HACKER!!!" || calculatorState.resultShown && !calculatorState.functionSelection) {
@@ -154,7 +159,7 @@ numberButtons.forEach(button => {
 
                     calculatorState.valueStorage.push(currentNumber);
 
-                    if (calculatorState.valueStorage.length >= 15) {
+                    if (calculatorState.valueStorage.length >= 13) {
                         let shortenedDisplay = calculatorState.valueStorage.slice(0, 12)
                         currentCalculation.textContent = parseFloat(shortenedDisplay.join(""));
                         currentCalculation.textContent += " ...";
@@ -180,8 +185,7 @@ let operate = function(firstValue, secondValue, operator) {
         calculatorState.firstValue = null;
         calculatorState.secondValue = null;
     } else {     
-
-        if (calculatorState.valueStorage.length >= 15) {
+        if ([...result.toString()].length >= 13) {
             let shortenedResult = [...result.toString()].slice(0, 12)
             currentCalculation.textContent = parseFloat(shortenedResult.join(""));
             currentCalculation.textContent += " ...";
@@ -238,7 +242,7 @@ functionButtons.forEach(button => {
         }
 
         if (calculatorState.firstValue !== null) {
-            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id}`;
+            manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id}`)
         }   
 
 
@@ -258,18 +262,21 @@ functionButtons.forEach(button => {
         }
 
         if (button.textContent === "=") {  
-            calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.operator.id} ${calculatorState.secondValue} =`;
-            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator.function);
-            calculatorState.functionSelection = false;
+            if (calculatorState.firstValue !== null) {
+                calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
+                manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id} ${calculatorState.secondValue} =`);
+                operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator.function);
+                calculatorState.functionSelection = false;
+            }
+            
             
         }
 
         if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-            console.log(calculatorState.prevOperators);
-            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 2].id} ${calculatorState.secondValue} =`;
-            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 2].function);
+            console.log("chained operation is running!")
+            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 1].id} ${calculatorState.secondValue} =`;
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 1].function);
             //issue with how operators display in chained operations - the "latest" operator shows 
             //instead of the one that was actually used in an operation. seems to be the case for
             //the actual operation as well. As I've tried to calculate 1 + 2 - 3 (was supposed to

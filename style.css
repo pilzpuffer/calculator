@@ -103,7 +103,9 @@ button {
 }
 
 #currentCalc {
-    height: 60%
+    height: 60%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #backspace {
