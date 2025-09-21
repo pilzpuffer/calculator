@@ -97,7 +97,7 @@ let updatePrev = function () {
 
 let manageStoredDisplay = function (string) {
     if ([...string].length >= 25) {
-        let shortened = [...string].slice(0, 25)
+        let shortened = [...string].slice(0, 24)
         storedCalculations.textContent = shortened.join("");
         storedCalculations.textContent += " ...";
     } else {
@@ -274,15 +274,8 @@ functionButtons.forEach(button => {
 
         if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-            console.log("chained operation is running!")
-            storedCalculations.textContent = `${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 1].id} ${calculatorState.secondValue} =`;
+            manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 1].id} ${calculatorState.secondValue} =`);
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 1].function);
-            //issue with how operators display in chained operations - the "latest" operator shows 
-            //instead of the one that was actually used in an operation. seems to be the case for
-            //the actual operation as well. As I've tried to calculate 1 + 2 - 3 (was supposed to
-            //get 0), but got -4 instead.
-            //based on logs, prevOperator values seem to get updated by the operator, and they all become
-            //the same. check on that issue
         }
 
     })
@@ -291,19 +284,26 @@ functionButtons.forEach(button => {
 const backspace = document.querySelector("#backspace");
 
 backspace.addEventListener("click", function() {
-    if (calculatorState.firstValue === null && !calculatorState.functionSelection) {
+
+    if (calculatorState.valueStorage.length >= 1 && !calculatorState.resultShown) {
         if (calculatorState.valueStorage.length > 1) {
             calculatorState.valueStorage.pop();
         } else if (calculatorState.valueStorage.length === 1) {
             if (!calculatorState.valueStorage.includes(0)) {
                 calculatorState.valueStorage = [0];
-                currentCalculation.textContent = calculatorState.valueStorage;
             }
         }
     }
 
     calculatorState.numbersEntered = calculatorState.numbersEntered === 0 ? 0 : calculatorState.numbersEntered - 1;
-    currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
+    if (calculatorState.valueStorage.length >= 13) {
+        let shortened = calculatorState.valueStorage.slice(0, 12)
+        currentCalculation.textContent = parseFloat(shortened.join(""));
+        currentCalculation.textContent += " ...";
+    } else {
+        currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
+    }
+    
 })
 
 
