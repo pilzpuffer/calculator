@@ -175,11 +175,7 @@ numberButtons.forEach(button => {
     })
 });
 
-window.addEventListener("keydown", event => {
-    if (event.shiftKey && event.code === "Minus") {
-        console.log("test!!!")
-    }
-})
+
 
 let functionButtons = document.querySelectorAll(".function") 
 
@@ -211,80 +207,84 @@ let operate = function(firstValue, secondValue, operator) {
     calculatorState.resultShown = true;
     calculatorState.numbersEntered = 0;
 }
+        
+let handleFunctions = function(event) {
+    calculatorState.functionSelection = true;
+    console.log(event);
+
+    if (event.target.textContent === "±" || event.key === "_") {
+        let toNegative = parseFloat(valueStorage.join("")) * (-1);
+        currentCalculation.textContent = toNegative;
+        let toNegativeArray = toNegative.toString().split("");
+        calculatorState.valueStorage = toNegativeArray;
+    }
+    
+    if (event.target.textContent === "%" || event.key === "%") {
+        calculatorState.operator.id = "%"
+        calculatorState.operator.function = percent;
+    }
+    if (event.target.textContent === "x^" || event.key === "^") {
+        calculatorState.operator.id = "^";
+        calculatorState.operator.function = power;
+    }
+    if (event.target.textContent === "+" || event.key === "+") {
+        calculatorState.operator.id = "+"
+        calculatorState.operator.function = add;
+    } 
+    if (event.target.textContent === "-" || event.key === "-") {
+        calculatorState.operator.id = "-"
+        calculatorState.operator.function = subtract;
+    }
+    if (event.target.textContent === "×" || event.key === "*") {
+        calculatorState.operator.id = "×"
+        calculatorState.operator.function = multiply;
+    }
+    if (event.target.textContent === "÷" || event.key === "/") {
+        calculatorState.operator.id = "÷"
+        calculatorState.operator.function = divide;
+    }
+
+    if (calculatorState.firstValue !== null) {
+        manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id}`)
+    }   
+
+
+    if (event.target.textContent === "C" || event.code === "KeyC") {
+        calculatorState.valueStorage = [0];
+        currentCalculation.textContent = calculatorState.valueStorage;
+        storedCalculations.textContent = "";
+
+        calculatorState.firstValue = null;
+        calculatorState.secondValue = null;
+        calculatorState.operator.id = null;
+        calculatorState.operator.function = null;
+        calculatorState.functionSelection = false;
+        calculatorState.resultShown = false;
+        calculatorState.numbersEntered = 0;
+        calculatorState.prevOperators = [];
+    }
+
+    if (event.target.textContent === "=" || event.key === "=") {  
+        if (calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
+            calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
+            manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id} ${calculatorState.secondValue} =`);
+            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator.function);
+            calculatorState.functionSelection = false;
+        } 
+    }
+
+    if ((event.key !== "_" && event.code !== "KeyC" && !event.key !== "="||event.target.textContent !== "±" && event.target.textContent !== "C" && event.target.textContent !== "=") && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
+        calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
+        manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 1].id} ${calculatorState.secondValue} =`);
+        operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 1].function);
+    }
+}
 
 functionButtons.forEach(button => {
-    button.addEventListener("click", function() {
-        calculatorState.functionSelection = true;
-
-        if (button.textContent === "±" || event.key === "_") {
-            let toNegative = parseFloat(valueStorage.join("")) * (-1);
-            currentCalculation.textContent = toNegative;
-            let toNegativeArray = toNegative.toString().split("");
-            calculatorState.valueStorage = toNegativeArray;
-        }
-        
-        if (button.textContent === "%" || event.key === "%") {
-            calculatorState.operator.id = "%"
-            calculatorState.operator.function = percent;
-        }
-        if (button.textContent === "x^" || event.key === "^") {
-            calculatorState.operator.id = "^";
-            calculatorState.operator.function = power;
-        }
-        if (button.textContent === "+" || event.key === "+") {
-            calculatorState.operator.id = "+"
-            calculatorState.operator.function = add;
-        } 
-        if (button.textContent === "-" || event.key === "-") {
-            calculatorState.operator.id = "-"
-            calculatorState.operator.function = subtract;
-        }
-        if (button.textContent === "×" || event.key === "*") {
-            calculatorState.operator.id = "×"
-            calculatorState.operator.function = multiply;
-        }
-        if (button.textContent === "÷" || event.key === "/") {
-            calculatorState.operator.id = "÷"
-            calculatorState.operator.function = divide;
-        }
-
-        if (calculatorState.firstValue !== null) {
-            manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id}`)
-        }   
-
-
-        if (button.textContent === "C" || event.code === "KeyC") {
-            calculatorState.valueStorage = [0];
-            currentCalculation.textContent = calculatorState.valueStorage;
-            storedCalculations.textContent = "";
-
-            calculatorState.firstValue = null;
-            calculatorState.secondValue = null;
-            calculatorState.operator.id = null;
-            calculatorState.operator.function = null;
-            calculatorState.functionSelection = false;
-            calculatorState.resultShown = false;
-            calculatorState.numbersEntered = 0;
-            calculatorState.prevOperators = [];
-        }
-
-        if (button.textContent === "=" || event.key === "=") {  
-            if (calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
-                calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-                manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id} ${calculatorState.secondValue} =`);
-                operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator.function);
-                calculatorState.functionSelection = false;
-            } 
-        }
-
-        if ((event.key !== "_" && event.code !== "KeyC" && !event.key !== "="||button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=") && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
-            calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
-            manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 1].id} ${calculatorState.secondValue} =`);
-            operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 1].function);
-        }
-
-    })
+    button.addEventListener("click", handleFunctions);
 })
+
+window.addEventListener("keydown", handleFunctions);
 
 const backspace = document.querySelector("#backspace");
 
@@ -308,7 +308,6 @@ backspace.addEventListener("click", function() {
     } else {
         currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
     }
-    //currently doesn't erase if we try to run calculations with the result of operate function
 })
 
 
