@@ -109,6 +109,7 @@ let displayRefresh = function() {
     calculatorState.valueStorage = [0];
     currentCalculation.textContent = calculatorState.valueStorage;
     calculatorState.numbersEntered = 0;
+    calculatorState.resultShown = false;
     
     if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
         manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id}`)
@@ -174,6 +175,12 @@ numberButtons.forEach(button => {
     })
 });
 
+window.addEventListener("keydown", event => {
+    if (event.shiftKey && event.code === "Minus") {
+        console.log("test!!!")
+    }
+})
+
 let functionButtons = document.querySelectorAll(".function") 
 
 let operate = function(firstValue, secondValue, operator) {
@@ -209,34 +216,34 @@ functionButtons.forEach(button => {
     button.addEventListener("click", function() {
         calculatorState.functionSelection = true;
 
-        if (button.textContent === "±") {
+        if (button.textContent === "±" || event.key === "_") {
             let toNegative = parseFloat(valueStorage.join("")) * (-1);
             currentCalculation.textContent = toNegative;
             let toNegativeArray = toNegative.toString().split("");
             calculatorState.valueStorage = toNegativeArray;
         }
         
-        if (button.textContent === "%") {
+        if (button.textContent === "%" || event.key === "%") {
             calculatorState.operator.id = "%"
             calculatorState.operator.function = percent;
         }
-        if (button.textContent === "x^") {
+        if (button.textContent === "x^" || event.key === "^") {
             calculatorState.operator.id = "^";
             calculatorState.operator.function = power;
         }
-        if (button.textContent === "+") {
+        if (button.textContent === "+" || event.key === "+") {
             calculatorState.operator.id = "+"
             calculatorState.operator.function = add;
         } 
-        if (button.textContent === "-") {
+        if (button.textContent === "-" || event.key === "-") {
             calculatorState.operator.id = "-"
             calculatorState.operator.function = subtract;
         }
-        if (button.textContent === "×") {
+        if (button.textContent === "×" || event.key === "*") {
             calculatorState.operator.id = "×"
             calculatorState.operator.function = multiply;
         }
-        if (button.textContent === "÷") {
+        if (button.textContent === "÷" || event.key === "/") {
             calculatorState.operator.id = "÷"
             calculatorState.operator.function = divide;
         }
@@ -246,7 +253,7 @@ functionButtons.forEach(button => {
         }   
 
 
-        if (button.textContent === "C") {
+        if (button.textContent === "C" || event.code === "KeyC") {
             calculatorState.valueStorage = [0];
             currentCalculation.textContent = calculatorState.valueStorage;
             storedCalculations.textContent = "";
@@ -261,18 +268,16 @@ functionButtons.forEach(button => {
             calculatorState.prevOperators = [];
         }
 
-        if (button.textContent === "=") {  
-            if (calculatorState.firstValue !== null) {
+        if (button.textContent === "=" || event.key === "=") {  
+            if (calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
                 calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
                 manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.operator.id} ${calculatorState.secondValue} =`);
                 operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.operator.function);
                 calculatorState.functionSelection = false;
-            }
-            
-            
+            } 
         }
 
-        if (button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=" && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
+        if ((event.key !== "_" && event.code !== "KeyC" && !event.key !== "="||button.textContent !== "±" && button.textContent !== "C" && button.textContent !== "=") && calculatorState.firstValue !== null && calculatorState.numbersEntered > 0) {
             calculatorState.secondValue = parseFloat(calculatorState.valueStorage.join(""));
             manageStoredDisplay(`${calculatorState.firstValue} ${calculatorState.prevOperators[calculatorState.prevOperators.length - 1].id} ${calculatorState.secondValue} =`);
             operate(calculatorState.firstValue, calculatorState.secondValue, calculatorState.prevOperators[calculatorState.prevOperators.length - 1].function);
@@ -303,7 +308,7 @@ backspace.addEventListener("click", function() {
     } else {
         currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
     }
-    
+    //currently doesn't erase if we try to run calculations with the result of operate function
 })
 
 
