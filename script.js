@@ -294,30 +294,34 @@ functionButtons.forEach(button => {
 })
 window.addEventListener("keydown", handleFunctions);
 
-const backspace = document.querySelector("#backspace");
-let erase = function() {
 
-    if (calculatorState.valueStorage.length >= 1 && !calculatorState.resultShown) {
-        if (calculatorState.valueStorage.length > 1) {
-            calculatorState.valueStorage.pop();
-        } else if (calculatorState.valueStorage.length === 1) {
-            if (!calculatorState.valueStorage.includes(0)) {
-                calculatorState.valueStorage = [0];
+let erase = function(event) {
+    if (event.type === "click" || event.key === "Delete" || event.key === "Backspace") {
+
+        if (calculatorState.valueStorage.length >= 1 && !calculatorState.resultShown) {
+            if (calculatorState.valueStorage.length > 1) {
+                calculatorState.valueStorage.pop();
+            } else if (calculatorState.valueStorage.length === 1) {
+                if (!calculatorState.valueStorage.includes(0)) {
+                    calculatorState.valueStorage = [0];
+                }
             }
         }
-    }
 
-    calculatorState.numbersEntered = calculatorState.numbersEntered === 0 ? 0 : calculatorState.numbersEntered - 1;
-    if (calculatorState.valueStorage.length >= 13) {
-        let shortened = calculatorState.valueStorage.slice(0, 12)
-        currentCalculation.textContent = parseFloat(shortened.join(""));
-        currentCalculation.textContent += " ...";
-    } else {
-        currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
+        calculatorState.numbersEntered = calculatorState.numbersEntered === 0 ? 0 : calculatorState.numbersEntered - 1;
+        if (calculatorState.valueStorage.length >= 13) {
+            let shortened = calculatorState.valueStorage.slice(0, 12)
+            currentCalculation.textContent = parseFloat(shortened.join(""));
+            currentCalculation.textContent += " ...";
+        } else {
+            currentCalculation.textContent = parseFloat(calculatorState.valueStorage.join(""));
+        }
     }
 }
 
+const backspace = document.querySelector("#backspace");
 backspace.addEventListener("click", erase)
+window.addEventListener("keydown", erase);
 
 
     const canvas = document.querySelector("#hacker");
