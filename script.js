@@ -190,7 +190,7 @@ window.addEventListener("keydown", handleNumbers);
 let functionButtons = document.querySelectorAll(".function") 
 
 let operate = function(firstValue, secondValue, operator) {
-    let result = parseFloat(operator(firstValue, secondValue));
+    let result = operator(firstValue, secondValue);
     console.log(result);
             
     if (result === "error") {
@@ -200,8 +200,9 @@ let operate = function(firstValue, secondValue, operator) {
         calculatorState.secondValue = null;
     } else {  
         let trailingZero = [...result.toPrecision(7).toString()];
+        console.log(trailingZero);
 
-        if (trailingZero.includes(".")) {     
+        if (trailingZero.includes(".") && !trailingZero.includes("e")) {     
             for (let i = trailingZero.length - 1; i > trailingZero.indexOf("."); i--) {
                 if (trailingZero[i] === "0") {
                     trailingZero.pop();
