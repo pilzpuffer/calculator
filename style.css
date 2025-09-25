@@ -44,9 +44,6 @@ button {
     position: absolute;
     top: 0;
     z-index: -10;
-
-    /* height: 100vh;
-    width: 100vw; */
 }
 
 #title {
@@ -60,14 +57,14 @@ button {
 #calculator {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
     width: 500px;
     height: 600px;
 
     background-color: var(--calculator-body-color);
-    border-radius: 0 0 10% 10%;
+    border-radius: 10% / 50%;
 
     padding: 2%
 }
@@ -130,6 +127,7 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 5px;
 }
 
 #all-buttons button {
@@ -148,32 +146,33 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    z-index: -1;
 }
 
 #ears {
+    margin-bottom: -5%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
-    height: 150px;
-    width: 600px;
+    height: 125px;
+    width: 450px;
 }
 
 #ear-one, #ear-two {
-    z-index: -1;
-    top: 100px;
-
-    height: 150px;
-    width: 200px;
+    height: 125px;
+    width: 175px;
 }
 
 #hat {
-  z-index: -2;
-}
+    position: absolute;
+    z-index: -2;
 
-#calculator {
-    border-radius: 10% / 50%;
+    width: 400px;
+    margin-bottom: -15%;
+    margin-left: 2%
 }
 
 #mouth {
@@ -182,6 +181,15 @@ button {
 
 #body {
     z-index: -1;
+    height: 800px;
+    width: 600px;
 }
 
 
+@media screen and (max-height: 950px){
+    
+}
+
+@media screen and (max-height: 750px){
+    
+}
