@@ -172,7 +172,7 @@ button {
 
     width: 400px;
     margin-bottom: -15%;
-    margin-left: 2%
+    margin-left: 4%
 }
 
 #mouth {
@@ -186,10 +186,129 @@ button {
 }
 
 
-@media screen and (max-height: 950px){
-    
+@media screen and (max-height: 1100px){
+    #title {
+        top: 20px;
+        font-size: 350%;
+    }
+}
+
+@media screen and (max-height: 1050px){
+    #title {
+        top: 10px;
+        font-size: 325%;
+    }
+}
+
+@media screen and (max-height: 1000px){
+    #calculator {
+        width: 450px;
+        height: 500px;
+        padding: 2%
+    }
+
+    #display {
+        padding: 5% 5% 5% 7%;
+
+        height: 20%;
+        width: 100%;
+    }
+
+    #backspace {
+        width: 65px;
+        height: 65px;
+    }
+
+    #all-buttons {
+        gap: 5px;
+    }
+
+    #all-buttons button {
+        height: 70px;
+        width: 70px;
+
+        font-size: x-large;
+    }
+
+    #ears {
+        margin-bottom: -5%;
+        height: 125px;
+        width: 450px;
+    }
+
+    #ear-one, #ear-two {
+        height: 125px;
+        width: 175px;
+    }
+
+    #hat {
+        width: 400px;
+        margin-bottom: -15%;
+        margin-left: 2%
+    }
+
+    #body {
+        z-index: -1;
+        height: 800px;
+        width: 600px;
+    }
 }
 
 @media screen and (max-height: 750px){
-    
+    #title {
+        top: 30px;
+        font-size: 350%;
+    }
+
+    #calculator {
+        width: 500px;
+        height: 600px;
+        padding: 2%
+    }
+
+    #display {
+        padding: 5% 5% 5% 7%;
+
+        height: 20%;
+        width: 100%;
+    }
+
+    #backspace {
+        width: 65px;
+        height: 65px;
+    }
+
+    #all-buttons {
+        gap: 5px;
+    }
+
+    #all-buttons button {
+        height: 70px;
+        width: 70px;
+
+        font-size: x-large;
+    }
+
+    #ears {
+        margin-bottom: -5%;
+        height: 125px;
+        width: 450px;
+    }
+
+    #ear-one, #ear-two {
+        height: 125px;
+        width: 175px;
+    }
+
+    #hat {
+        width: 400px;
+        margin-bottom: -15%;
+        margin-left: 2%
+    }
+
+    #body {
+        z-index: -1;
+        height: 800px;
+        width: 600px;
+    }  
 }

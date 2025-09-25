@@ -107,6 +107,7 @@ let displayRefresh = function() {
     calculatorState.valueStorage = [0];
     currentCalculation.textContent = calculatorState.valueStorage;
     calculatorState.numbersEntered = 0;
+    calculatorState.dotTracker = 0;
     calculatorState.resultShown = false;
     
     if (calculatorState.operator !== null && calculatorState.firstValue !== null) {
@@ -118,7 +119,7 @@ let displayRefresh = function() {
 
 let handleNumbers = function(event) {
     let currentNumber;
-    let allNumbers = [..."1234567890"];
+    let allNumbers = [..."1234567890."];
 
     if (event.type === "click" || allNumbers.includes(event.key)) {
 
@@ -141,20 +142,21 @@ let handleNumbers = function(event) {
             storedCalculations.textContent = "";
         }
 
-        if (event.type === "click") {
-            currentNumber = parseFloat(event.target.textContent);
-        } else if (event.type === "keydown" && allNumbers.includes(event.key)) {
-            currentNumber = parseFloat(event.key);
-        } 
-
             if (event.target.textContent === "." || event.key === ".") {
                 if (calculatorState.dotTracker < 1) {
                     calculatorState.dotTracker++;
+                    currentNumber = event.target.textContent;
 
                     calculatorState.valueStorage.push(currentNumber);
                     currentCalculation.textContent += currentNumber;
                 }
             } else {
+                if (event.type === "click") {
+                    currentNumber = parseFloat(event.target.textContent);
+                } else if (event.type === "keydown" && allNumbers.includes(event.key)) {
+                    currentNumber = parseFloat(event.key);
+                } 
+
                 if (calculatorState.valueStorage.length === 1 && calculatorState.valueStorage.includes(0)) {
                     calculatorState.valueStorage.shift()
                     currentCalculation.textContent = "";
@@ -162,8 +164,8 @@ let handleNumbers = function(event) {
 
                     calculatorState.valueStorage.push(currentNumber);
 
-                    if (calculatorState.valueStorage.length >= 13) {
-                        let shortenedDisplay = calculatorState.valueStorage.slice(0, 12)
+                    if (calculatorState.valueStorage.length >= 12) {
+                        let shortenedDisplay = calculatorState.valueStorage.slice(0, 11)
                         currentCalculation.textContent = parseFloat(shortenedDisplay.join(""));
                         currentCalculation.textContent += " ...";
                     } else {
@@ -171,7 +173,9 @@ let handleNumbers = function(event) {
                     }
 
                     calculatorState.numbersEntered++;
+                    
             }
+        console.log("value storage is", calculatorState.valueStorage);
     }
 }
 
@@ -186,14 +190,28 @@ window.addEventListener("keydown", handleNumbers);
 let functionButtons = document.querySelectorAll(".function") 
 
 let operate = function(firstValue, secondValue, operator) {
-    let result = operator(firstValue, secondValue);
-
+    let result = parseFloat(operator(firstValue, secondValue));
+    console.log(result);
+            
     if (result === "error") {
         currentCalculation.textContent = "HACKER!!!"
 
         calculatorState.firstValue = null;
         calculatorState.secondValue = null;
-    } else {     
+    } else {  
+        let trailingZero = [...result.toPrecision(7).toString()];
+        if (trailingZero.includes(".")) {
+            
+            for (let i = trailingZero.length - 1; i > trailingZero.indexOf("."); i--) {
+                if (trailingZero[i] === "0") {
+                    trailingZero.pop();
+                } else {
+                    break;
+                }
+            }
+            result = parseFloat(trailingZero.join(""))
+        }           
+        
         if ([...result.toString()].length >= 13) {
             let shortenedResult = [...result.toString()].slice(0, 12)
             currentCalculation.textContent = parseFloat(shortenedResult.join(""));
@@ -309,8 +327,8 @@ let erase = function(event) {
         }
 
         calculatorState.numbersEntered = calculatorState.numbersEntered === 0 ? 0 : calculatorState.numbersEntered - 1;
-        if (calculatorState.valueStorage.length >= 13) {
-            let shortened = calculatorState.valueStorage.slice(0, 12)
+        if (calculatorState.valueStorage.length >= 12) {
+            let shortened = calculatorState.valueStorage.slice(0, 11)
             currentCalculation.textContent = parseFloat(shortened.join(""));
             currentCalculation.textContent += " ...";
         } else {
