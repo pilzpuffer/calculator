@@ -55,6 +55,11 @@ let calculatorState = {
     resultShown: false
 }
 
+let svg1 = this.document.querySelector("#ear-two");
+var bBox = svg1.getBBox();
+console.log('XxY', bBox.x + 'x' + bBox.y);
+console.log('size', bBox.width + 'x' + bBox.height);
+
 let storedCalculations = document.querySelector("#prevCalc");
 let currentCalculation = document.querySelector("#currentCalc")
 currentCalculation.textContent = calculatorState.valueStorage;

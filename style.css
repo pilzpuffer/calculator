@@ -80,9 +80,9 @@ button {
     justify-content: space-between;
 
     background-color: var(--display-color);
-    border-radius: 10%;
+    border-radius: 10% / 50%;
 
-    padding: 5%;
+    padding: 5% 5% 5% 7%;
 
     height: 20%;
     width: 100%;
@@ -94,11 +94,13 @@ button {
     flex-direction: column;
 
     width: 85%;
+    height: 100%
 }
 
 #prevCalc {
     font-size: large;
     height: 40%;
+    width: 100%;
     color: var( --grey-text);
 }
 
@@ -139,27 +141,39 @@ button {
     font-size: x-large;
 }
 
-#ear-one, #ear-two {
+#calculator-case {
     position: absolute;
-    z-index: -1;
-    top: 100px;
-    transform: scale(105%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-#ear-one {
-  left: 343px;
+#ears {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 150px;
+    width: 600px;
 }
-    
-#ear-two {
-    left: 630px;
+
+#ear-one, #ear-two {
+    z-index: -1;
+    top: 100px;
+
+    height: 150px;
+    width: 200px;
 }
 
 #hat {
-  position: absolute;
   z-index: -2;
+}
 
-  top: 0px;
-  left: 395px;
+#calculator {
+    border-radius: 10% / 50%;
 }
 
 #mouth {
@@ -167,18 +181,7 @@ button {
 }
 
 #body {
-    position: absolute;
     z-index: -1;
-
-    top: 290px;
-    left: 273px;
-
-    /* filter: drop-shadow(15px 15px 15px rgba(252, 15, 193, 0.616)) */
 }
 
-/* ideal svg sizing in px (not in px?? a bit of a mystery about the sizing, then) widthxheight: <- I need to look more into how sizing works for SVG elements
-ear: 210x157.5
-hat: 500x85
-mouth: 100x50
-body: 618.24 x 838.93 */
 
