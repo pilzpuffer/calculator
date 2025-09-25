@@ -156,14 +156,14 @@ button {
 }
 
 #ears {
-    margin-bottom: -5%;
+    margin-bottom: -7%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
     height: 125px;
-    width: 450px;
+    width: 470px;
 }
 
 #ear-one, #ear-two {
@@ -379,7 +379,7 @@ button {
         width: 55px;
         height: 55px;
     }
-    
+
     #all-buttons button {
         height: 63px;
         width: 63px;

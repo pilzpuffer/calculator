@@ -1,3 +1,10 @@
+##PROJECT SUMMARY
+
+This project helped me to get firmer grasp on Objects, arrays and how they can be utilized. As calculations were the main thing of this project, I've also learned about inaccuracies that are present when running certain calculations - for example, when running calculations on non-integer numbers. 
+
+Also, I've learned a bit about SVG elements - though I didn't get too "deep" into this particular topic, and I'd need to study it deeper to truly "get" it. 
+
+
 ##PROJECT NOTES
 
 Even though I really like the font that I've chosen for this project, it's not really ideal for a calculator as it's not monospaced. This was discovered during a testing scenario where long numbers were entered - to prevent overflow, I capped max shown numbers at 12. While this does properly cover scenarios with wider numbers like 2 or 8, narrower numbers (like 1) only end up taking half the display before getting "shortened".
