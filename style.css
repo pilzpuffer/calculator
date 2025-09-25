@@ -29,6 +29,9 @@ body {
 
     background-color: var(--background-color);
     overflow: hidden;
+
+    min-height: 730px;
+    min-width: 650px;
 }
 
 * {
@@ -210,7 +213,6 @@ button {
     #calculator {
         width: 450px;
         height: 600px;
-        padding: 2%
     }
 
     #display {
@@ -222,15 +224,9 @@ button {
         height: 60px;
     }
 
-    #all-buttons {
-        gap: 5px;
-    }
-
     #all-buttons button {
         height: 70px;
         width: 70px;
-
-        font-size: x-large;
     }
 
     #ears {
@@ -263,17 +259,11 @@ button {
     #calculator {
         width: 400px;
         height: 550px;
-        padding: 2%
     }
 
     #display {
         width: 115%;
         font-size: 30px;
-    }
-
-    #backspace {
-        width: 60px;
-        height: 60px;
     }
 
     #all-buttons {
@@ -283,14 +273,12 @@ button {
     #all-buttons button {
         height: 65px;
         width: 65px;
-
-        font-size: x-large;
     }
 
     #ears {
         margin-bottom: -10%;
-        height: 100px;
-        width: 425px;
+        height: 120px;
+        width: 420px;
     }
 
     #ear-one, #ear-two {
@@ -299,8 +287,8 @@ button {
     }
 
     #hat {
-        width: 400px;
-        margin-bottom: -10%;
+        width: 375px;
+        margin-bottom: -8%;
     }
 
     #body {
@@ -309,3 +297,118 @@ button {
     }
 }
 
+@media screen and (max-height: 850px) {
+    #title {
+        font-size: 275%;
+    }
+
+    #calculator {
+        width: 350px;
+        height: 525px;
+    }
+
+    #display {
+        height: 18%;
+        width: 120%;
+        font-size: 27px;
+    }
+
+    #prevCalc {
+        font-size: 12px;
+    }
+
+    #backspace {
+        width: 55px;
+        height: 55px;
+    }
+
+    #all-buttons {
+        gap: 3px;
+    }
+
+    #all-buttons button {
+        height: 63px;
+        width: 63px;
+
+        font-size: 22px;
+    }
+
+    #ears {
+        margin-bottom: -10%;
+        height: 100px;
+        width: 380px;
+    }
+
+    #ear-one, #ear-two {
+        height: 120px;
+        width: 170px;
+    }
+
+    #hat {
+        width: 350px;
+        margin-bottom: -10%;
+    }
+
+    #body {
+        height: 675px;
+        width: 475px;
+    }
+}
+
+@media screen and (max-height: 800px) {
+    #title {
+        font-size: 250%;
+    }
+
+    #calculator {
+        width: 325px;
+        height: 500px;
+        padding: 1%
+    }
+
+    #display {
+        width: 110%;
+        font-size: 27px;
+    }
+
+    #prevCalc {
+        font-size: 12px;
+    }
+
+    #backspace {
+        width: 55px;
+        height: 55px;
+    }
+
+    #all-buttons {
+        gap: 3px;
+    }
+
+    #all-buttons button {
+        height: 63px;
+        width: 63px;
+
+        font-size: 22px;
+    }
+
+    #ears {
+        margin-bottom: -12%;
+        height: 100px;
+        width: 355px;
+    }
+
+    #ear-one, #ear-two {
+        height: 100px;
+        width: 150px;
+    }
+
+    #hat {
+        width: 300px;
+        margin-bottom: -10%;
+    }
+
+    #body {
+        height: 650px;
+        width: 450px;
+    }
+}
