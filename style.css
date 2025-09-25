@@ -247,13 +247,65 @@ button {
     #hat {
         width: 400px;
         margin-bottom: -15%;
-        margin-left: 4%
     }
 
     #body {
-        z-index: -1;
         height: 775px;
         width: 575px;
+    }
+}
+
+@media screen and (max-height: 930px){
+    #title {
+        font-size: 275%;
+    }
+
+    #calculator {
+        width: 400px;
+        height: 550px;
+        padding: 2%
+    }
+
+    #display {
+        width: 115%;
+        font-size: 30px;
+    }
+
+    #backspace {
+        width: 60px;
+        height: 60px;
+    }
+
+    #all-buttons {
+        gap: 3px;
+    }
+
+    #all-buttons button {
+        height: 65px;
+        width: 65px;
+
+        font-size: x-large;
+    }
+
+    #ears {
+        margin-bottom: -10%;
+        height: 100px;
+        width: 425px;
+    }
+
+    #ear-one, #ear-two {
+        height: 120px;
+        width: 170px;
+    }
+
+    #hat {
+        width: 400px;
+        margin-bottom: -10%;
+    }
+
+    #body {
+        height: 725px;
+        width: 525px;
     }
 }
 

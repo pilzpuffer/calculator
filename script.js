@@ -200,8 +200,8 @@ let operate = function(firstValue, secondValue, operator) {
         calculatorState.secondValue = null;
     } else {  
         let trailingZero = [...result.toPrecision(7).toString()];
-        if (trailingZero.includes(".")) {
-            
+
+        if (trailingZero.includes(".")) {     
             for (let i = trailingZero.length - 1; i > trailingZero.indexOf("."); i--) {
                 if (trailingZero[i] === "0") {
                     trailingZero.pop();
@@ -209,8 +209,10 @@ let operate = function(firstValue, secondValue, operator) {
                     break;
                 }
             }
+
             result = parseFloat(trailingZero.join(""))
-        }           
+        }
+             
         
         if ([...result.toString()].length >= 13) {
             let shortenedResult = [...result.toString()].slice(0, 12)
@@ -288,6 +290,7 @@ let handleFunctions = function(event) {
             calculatorState.resultShown = false;
             calculatorState.numbersEntered = 0;
             calculatorState.prevOperators = [];
+            calculatorState.dotTracker = 0;
         }
 
         if (event.target.textContent === "=" || event.key === "=" || event.key == "Enter") {  
