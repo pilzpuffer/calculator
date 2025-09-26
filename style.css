@@ -47,6 +47,9 @@ button {
     position: absolute;
     top: 0;
     z-index: -10;
+
+    height: 100vh;
+    width: 100vw;
 }
 
 #title {
@@ -153,6 +156,10 @@ button {
     justify-content: center;
 
     z-index: -1;
+}
+
+#calculator-case svg {
+    transition: all 0.1s ease;
 }
 
 #ears {
@@ -262,8 +269,12 @@ button {
     }
 
     #display {
-        width: 115%;
-        font-size: 30px;
+        width: 115%;     
+        font-size: 28px;
+    }
+
+    #prevCalc {
+        font-size: 14px;
     }
 
     #all-buttons {
